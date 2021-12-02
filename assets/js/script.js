@@ -19,6 +19,50 @@ var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+var loadTasks = function() {
+    // Gets task items from localStorage
+    // Converts string into array
+    // Iterates through to create task elements from array
+    tasks = localStorage.getItem("tasks");
+
+    if (typeof(tasks) !== "undefined") {
+        tasks = JSON.parse(tasks);
+
+        for (var i = 0; i < tasks.length; i++) {
+            tasks[i].id = taskIdCounter;
+
+            var listItemEl = document.createElement("li");
+            listItemEl.className = "task-item";
+            listItemEl.setAttribute("data-task-id", tasks[i].id);
+
+            var taskInfoEl = document.createElement("div");
+            taskInfoEl.className = "task-info";
+            taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
+
+            listItemEl.appendChild(taskInfoEl);
+
+            var taskActionsEl = createTaskActions(tasks[i].id);
+            listItemEl.appendChild(taskActionsEl);
+
+            if (tasks[i].status === "to do") {
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
+                tasksToDoEl.appendChild(listItemEl);
+            } else if (tasks[i].status === "in progress") {
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+                tasksCompletedEl.appendChild(listItemEl);
+            } else if (tasks[i].status === "complete") {
+                listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
+                tasksCompletedEl.appendChild(listItemEl);
+            }
+
+            taskIdCounter++;
+        }
+    } else {
+        tasks = [];
+        return false;
+    }
+};
+
 var completeEditTask = function(taskName, taskType, taskId) {
     // Find matching task list item
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
@@ -120,7 +164,7 @@ var createTaskActions = function(taskId) {
     statusSelectEl.setAttribute("name", "status-change");
     statusSelectEl.setAttribute("data-task-id", taskId);
 
-    var statusChoices = ["To Do", "In Progress", "Completed"];
+    var statusChoices = ["To Do", "In Progress", "Complete"];
     for (var i = 0; i < statusChoices.length; i++) {
         // Create Option Element
         var statusOptionEl = document.createElement("option");
