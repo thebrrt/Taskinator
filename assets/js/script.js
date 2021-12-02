@@ -1,13 +1,13 @@
 // Global Variables
 var formEl = document.getElementById("task-form");
-var tasksToDoEl = document.getElementById("tasks-to-do");
+
 var taskIdCounter = 0;
 console.log(formEl);
-console.log(tasksToDoEl);
 
 var pageContentEl = document.querySelector("[id='page-content']");
 console.log(pageContentEl);
 
+var tasksToDoEl = document.getElementById("tasks-to-do");
 var tasksInProgressEl = document.getElementById("tasks-in-progress");
 var tasksCompletedEl = document.getElementById("tasks-completed");
 
@@ -101,7 +101,7 @@ var createTaskActions = function(taskId) {
     statusSelectEl.setAttribute("name", "status-change");
     statusSelectEl.setAttribute("data-task-id", taskId);
 
-    var statusChoices = ["To Do", "In Progress", "Completed"];
+    var statusChoices = ["To Do", "In Progress", "Complete"];
     for (var i = 0; i < statusChoices.length; i++) {
         // Create Option Element
         var statusOptionEl = document.createElement("option");
