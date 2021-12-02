@@ -25,8 +25,8 @@ var loadTasks = function() {
     // Iterates through to create task elements from array
     var savedTasks = localStorage.getItem("tasks");
 
-    if (typeof(tasks) !== "undefined") {
-        savedTasks = JSON.parse(tasks);
+    if (typeof(savedTasks) !== "undefined") {
+        savedTasks = JSON.parse(savedTasks);
 
         for (var i = 0; i < savedTasks.length; i++) {
             createTaskEl(savedTasks[i]);
@@ -218,3 +218,5 @@ var taskButtonHandler = function(event) {
 formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+loadTasks();
